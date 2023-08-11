@@ -78,7 +78,7 @@ void removerCompra(Compra **lista, int *tamanhoLista){
 void removerGrupoCompra(Compra **lista, int *tamanhoLista){
     float valor;
 
-    scanf("%f", valor);
+    scanf(" %f", valor);
 
     for(int i=0; i<*tamanhoLista; i++){
         if((*lista)[i].quantidade > valor){
@@ -100,7 +100,7 @@ void consultarLista(Compra *lista, int tamanhoLista){
 void procurarCompra(Compra *lista, int tamanhoLista){
     char produto[50];
 
-    scanf("%s", produto);
+    scanf(" %s", produto);
 
     if(tamanhoLista == 0){
         printf("%s nao encontrado.\n\n", produto);
