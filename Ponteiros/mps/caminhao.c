@@ -102,53 +102,6 @@ int main(){
 /////////menu//////////
 
 
-
-Filial *cadastrar_filial(Filial *filiais, int *n_filiais){
-    float locX, locY;
-    printf("Qual a loc da nova filial no eixo X? ");   
-    scanf("%f", &locX);
-    printf("Qual a loc da nova filiao no eixo Y? ");
-    scanf("%f", &locY);
-
-    Filial *tmp = filiais;
-    filiais = (Filial *) realloc (filiais, (*n_filiais + 1) * sizeof(Filial));
-
-    if (filiais == NULL){
-        printf("Erro de alocando memoria\n");
-        for(int i=0; i<*n_filiais; i++){
-            free(tmp[i].caminhao);
-        }
-        free(tmp);
-        exit(1);
-    }
-
-    printf("\nFilial cadastrada com sucesso!\n");
-    filiais[*n_filiais].loc_x = locX;
-    filiais[*n_filiais].loc_y = locY;
-    filiais[*n_filiais].codigo = *n_filiais;
-    filiais[*n_filiais].n_caminhao = 0;
-    filiais[*n_filiais].caminhao = NULL;
-    (*n_filiais)++;
-    return filiais;
-}
-
-//\\//\\//\\//\\//\\//\\//
-
-void cadastrar_caminhao(Filial *filiais, Caminhao caminhao, int codigo_filial){
-    Caminhao *tmp = filiais[codigo_filial].caminhao;
-    filiais[codigo_filial].caminhao = (Caminhao *) realloc (filiais[codigo_filial].caminhao, (filiais[codigo_filial].n_caminhao + 1) * sizeof(Caminhao));
-    if (filiais[codigo_filial].caminhao == NULL){
-        printf("Erro");
-        free(tmp);
-        exit(1);
-    }
-    filiais[codigo_filial].caminhao[filiais[codigo_filial].n_caminhao] = caminhao;
-    filiais[codigo_filial].n_caminhao++;
-    printf("Caminhao cadastrado com sucesso!\n");
-}
-
-//\\//\\//\\//\\//\\//\\//
-
 void imprimir_filiais(Filial *filiais, int n_filiais){
     //a luta é grande, mas a derrota é certa :) Alves; Gabriel.
     
@@ -195,37 +148,112 @@ void imprimir_filiais(Filial *filiais, int n_filiais){
 
 //\\//\\//\\//\\//\\//\\//
 
+Filial *cadastrar_filial(Filial *filiais, int *n_filiais){
+    float locX, locY;
+    printf("Qual a loc da nova filial no eixo X? ");   
+    scanf("%f", &locX);
+    printf("Qual a loc da nova filiao no eixo Y? ");
+    scanf("%f", &locY);
+
+    Filial *tmp = filiais;
+    filiais = (Filial *) realloc (filiais, (*n_filiais + 1) * sizeof(Filial));
+
+    if (filiais == NULL){
+        printf("Erro de alocando memoria\n");
+        for(int i=0; i<*n_filiais; i++){
+            free(tmp[i].caminhao);
+        }
+        free(tmp);
+        exit(1);
+    }
+
+    printf("\nFilial cadastrada com sucesso!\n");
+    filiais[*n_filiais].loc_x = locX;
+    filiais[*n_filiais].loc_y = locY;
+    filiais[*n_filiais].codigo = *n_filiais;
+    filiais[*n_filiais].n_caminhao = 0;
+    filiais[*n_filiais].caminhao = NULL;
+    (*n_filiais)++;
+    return filiais;
+}
+
+//\\//\\//\\//\\//\\//\\//
+
+void cadastrar_caminhao(Filial *filiais, Caminhao caminhao, int codigo_filial){
+    Caminhao *tmp = filiais[codigo_filial].caminhao;
+    filiais[codigo_filial].caminhao = (Caminhao *) realloc (filiais[codigo_filial].caminhao, (filiais[codigo_filial].n_caminhao + 1) * sizeof(Caminhao));
+    if (filiais[codigo_filial].caminhao == NULL){
+        printf("Erro\n");
+        free(tmp);
+        exit(1);
+    }
+    filiais[codigo_filial].caminhao[filiais[codigo_filial].n_caminhao] = caminhao;
+    filiais[codigo_filial].n_caminhao++;
+    printf("Caminhao cadastrado com sucesso!\n");
+}
+
+//\\//\\//\\//\\//\\//\\//
+
+//problema na entrega
 void realizar_entrega(Filial *filiais, Produto produto, int n_filiais){
     float DistOrigem, DistDestino;
     float minOrigem = max, minDestino = max;
     int indexOrigem = -1, indexDestino = -1;
 
-    for (int i=0; i<n_filiais; i++){
-        DistOrigem = sqrt(pow(produto.origem_x - filiais[i].loc_x, 2) + pow(produto.origem_y - filiais[i].loc_y, 2));
+    if(filiais==NULL){
+        imprimir_filiais(filiais, n_filiais);
+        return;
+    }
+    else if(n_filiais==0){
+        DistOrigem = sqrt(pow(produto.origem_x - filiais[0].loc_x, 2) + pow(produto.origem_y - filiais[0].loc_y, 2));
 
-        if(DistOrigem <minOrigem){
-            if(filiais[i].n_caminhao > 1){
-                minOrigem = DistOrigem;
-                indexOrigem = i;
+            if(DistOrigem <minOrigem){
+                if(filiais[0].n_caminhao > 1){
+                    minOrigem = DistOrigem;
+                    indexOrigem = 0;
+                }
             }
-        }
 
-        DistDestino = sqrt(pow(produto.destino_x - filiais[i].loc_x, 2) + pow(produto.destino_y - filiais[i].loc_y, 2));
+            DistDestino = sqrt(pow(produto.destino_x - filiais[0].loc_x, 2) + pow(produto.destino_y - filiais[0].loc_y, 2));
 
-        if(DistDestino < minDestino){
-            minDestino = DistDestino;
-            indexDestino = i;
+            if(DistDestino < minDestino){
+                minDestino = DistDestino;
+                indexDestino = 0;
+            }
+    }
+    else {
+        for (int i=0; i<n_filiais; i++){
+            DistOrigem = sqrt(pow(produto.origem_x - filiais[i].loc_x, 2) + pow(produto.origem_y - filiais[i].loc_y, 2));
+
+            if(DistOrigem <minOrigem){
+                if(filiais[i].n_caminhao > 1){
+                    minOrigem = DistOrigem;
+                    indexOrigem = i;
+                }
+            }
+
+            DistDestino = sqrt(pow(produto.destino_x - filiais[i].loc_x, 2) + pow(produto.destino_y - filiais[i].loc_y, 2));
+
+            if(DistDestino < minDestino){
+                minDestino = DistDestino;
+                indexDestino = i;
+            }
         }
     }
 
-    if(minOrigem == max){
+    if(minOrigem == max || minDestino == max){
         printf("Nao foi possivel realizar a entrega por falta de filiais\n");
         return;
     }
     else{
         Caminhao add = remover_caminhao(filiais, indexDestino);
         cadastrar_caminhao(filiais, add, indexDestino);
-        printf("O produto vai ir da filial %d até a filial %d para entrega do produto\n", filiais[indexOrigem].codigo, filiais[indexDestino].codigo);
+        if(indexDestino == indexDestino){
+            printf("A filial %d vai fazer a entrega!\n", filiais[indexDestino].codigo);
+        }
+        else{
+            printf("O produto vai ir da filial %d até a filial %d para entrega do produto!\n", filiais[indexOrigem].codigo, filiais[indexDestino].codigo);
+        }
     }
 
     return;
@@ -235,7 +263,7 @@ void realizar_entrega(Filial *filiais, Produto produto, int n_filiais){
 
 Caminhao remover_caminhao(Filial *filiais, int codigo_filial){
     Caminhao removido;
-    strcpy("sempl", removido.placa);
+    strcpy(removido.placa, "sempl");
     if(filiais[codigo_filial].n_caminhao==0){
         printf("nao ha caminhoes nessa filial\n");
         return removido;
