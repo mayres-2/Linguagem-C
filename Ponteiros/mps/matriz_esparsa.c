@@ -35,10 +35,11 @@ int main() {
 /*-----------------------------------------------------*/
 
 
-///// 
+//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 Linha *preencheMatriz(int *qtdLinhas) {
   int linha = -1, coluna = -1;
   double valor;
+  char continuar;
   Linha *matriz = NULL;
 
   int i = 0;
@@ -68,9 +69,8 @@ Linha *preencheMatriz(int *qtdLinhas) {
         int qtdColunas = matriz[index].qtdColunas;
         int index2 = encontraColuna(coluna, matriz, index);
         if (index2 == -1) {
-          Coluna* tmp2 = matriz[index].ponteiro;
-          matriz[index].ponteiro =
-              (Coluna*) realloc(matriz[index].ponteiro, (qtdColunas + 1) * sizeof(Coluna));
+          Coluna * tmp2 = matriz[index].ponteiro;
+          matriz[index].ponteiro = (Coluna *) realloc(matriz[index].ponteiro, (qtdColunas + 1) * sizeof(Coluna));
 
           if (matriz[index].ponteiro == NULL) {
             for (int j = 0; j < i; j++) {
@@ -88,12 +88,14 @@ Linha *preencheMatriz(int *qtdLinhas) {
         } else
           matriz[index].ponteiro[index2].valor = valor;
       }
-  } while (linha != -2);
+      printf("Voce quer continuar preenchendo? (s/n)\n"); 
+      scanf("%c", continuar);
+  } while (continuar != "n");
   (*qtdLinhas) = i;
   return matriz;
 }
 
-////
+//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 int encontraLinha(int linha, Linha* matriz, int qtdLinhas) {
   for (int i = 0; i < qtdLinhas; i++) {
     if (matriz[i].linha == linha) {
@@ -103,7 +105,7 @@ int encontraLinha(int linha, Linha* matriz, int qtdLinhas) {
   return -1;
 }
 
-//// 
+//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 int encontraColuna(int coluna, Linha* matriz, int linha) {
 
   for (int j = 0; j < matriz[linha].qtdColunas; j++) {
@@ -114,7 +116,7 @@ int encontraColuna(int coluna, Linha* matriz, int linha) {
   return -1;
 }
 
-////
+//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 void printMatriz(Linha* matriz, int qtdLinhas) {
   printf("\nMatriz Esparsa:\n");
 

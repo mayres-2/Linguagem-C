@@ -143,6 +143,62 @@ int main() {
     existir entrada no buffer e guarde-as nesse vetor utilizando 
     ponteiros auxiliares (ponteiro temporário na hora de dar realloc).*/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define INITIAL_CAPACITY 2
+
+int main() {
+    char** str = NULL;
+    int size = 0;
+    int capacity = 0;
+
+    printf("Digite as strings (Ctrl+D para encerrar):\n");
+
+    while (1) {
+        char buffer[100];
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+            break;
+        }
+        buffer[strcspn(buffer, "\n")] = '\0';
+
+        char* temp = (char*)malloc(strlen(buffer) + 1);
+
+        if (temp == NULL) {
+            printf("Erro ao alocar memória\n");
+            return 1;
+        }
+
+        strcpy(temp, buffer);
+
+        if (size >= capacity) {
+            capacity = (capacity == 0) ? INITIAL_CAPACITY : capacity * 2;
+            char** new_str = (char**)realloc(str, capacity * sizeof(char*));
+
+            if (new_str == NULL) {
+                printf("Erro ao realocar memória\n");
+                return 1;
+            }
+
+            str = new_str;
+        }
+
+        str[size] = temp;
+        size++;
+    }
+
+    printf("\nStrings digitadas:\n");
+    for (int i = 0; i < size; i++) {
+        printf("%s\n", str[i]);
+        free(str[i]);
+    }
+
+    free(str);
+
+    return 0;
+}
+
 
     
 
