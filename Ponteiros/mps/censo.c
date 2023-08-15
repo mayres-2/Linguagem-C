@@ -148,7 +148,6 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
     return censo;
 }
 
-
 //insere ou atualiza uma pessoa
 void InserirOuAtualizar(Cidade *censo, int tam){
     Pessoa new;
