@@ -44,6 +44,9 @@ int main () {
         else if(strcmp(funcao, "PROCURAR") == 0){
             procurarCompra(lista, tamanhoLista);
         }
+        else{
+            printf("opcao invalida\n");
+        }
     }
 
     free(lista);
@@ -76,9 +79,9 @@ void removerCompra(Compra **lista, int *tamanhoLista){
 }
 
 void removerGrupoCompra(Compra **lista, int *tamanhoLista){
-    float valor;
+    float valor = 0.0;
 
-    scanf(" %f", valor);
+    scanf("%f", &valor);
 
     for(int i=0; i<*tamanhoLista; i++){
         if((*lista)[i].quantidade > valor){
