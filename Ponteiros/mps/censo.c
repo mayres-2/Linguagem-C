@@ -92,10 +92,12 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
 
     //provavelmente nao vai entrar aqui, mas esta ai
     if(*tam==0){
-        printf("Nome dessa nova cidade?\n"); scanf(" %s", censo[0].nome);
-        printf("Codigo dessa cidade?\n"); scanf("%d", &censo[0].codigo);
-        printf("Capacidade de pessoa dessa cidade?\n"); scanf("%d", &censo[0].capacidade);
+        Cidade nova[1];
+        printf("Nome dessa nova cidade?\n"); scanf(" %s", nova[0].nome);
+        printf("Codigo dessa cidade?\n"); scanf("%d", &nova[0].codigo);
+        printf("Capacidade de pessoa dessa cidade?\n"); scanf("%d", &nova[0].capacidade);
         printf("Tem alguem morando nessa cidade?\n(1)sim\n(2)nao\n"); scanf("%d", &otEscolha);
+        censo[0] = nova[0];
         if(otEscolha==1){
             printf("Quantas pessoas moram nessa cidade?\n"); scanf("%d", &tmp[0].n_cidadaos);
             if(censo[indexCidade].capacidade >= tmp[0].n_cidadaos){
@@ -116,10 +118,12 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
 
     else {
         //deveria estar recebendo algo do ultimo valor *tam
-        printf("Nome dessa cidade?\n"); scanf(" %s", censo[indexCidade].nome);
-        printf("Codigo dessa cidade?\n"); scanf("%d", &censo[indexCidade].codigo);
-        printf("Capacidade de pessoa dessa cidade?\n"); scanf("%d", &censo[indexCidade].capacidade);
+        Cidade nova[1];
+        printf("Nome dessa cidade?\n"); scanf(" %s", nova[0].nome);
+        printf("Codigo dessa cidade?\n"); scanf("%d", &nova[0].codigo);
+        printf("Capacidade de pessoa dessa cidade?\n"); scanf("%d", &nova[0].capacidade);
         printf("Tem alguem morando nessa cidade?\n(1)sim\n(2)nao\n"); scanf("%d", &otEscolha);
+        censo[indexCidade] = nova[0];
         if(otEscolha==1){
             printf("Quantas pessoas moram nessa cidade?\n"); scanf("%d", &tmp[0].n_cidadaos);
             if(censo[indexCidade].capacidade >= tmp[0].n_cidadaos){
@@ -132,7 +136,7 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
                 return censo;
             }
         }
-        else if(otEscolha==2){/////////
+        else if(otEscolha==2){  //////
             censo[indexCidade].n_cidadaos = 0;
             printf("Ok...\n");
         }
@@ -364,7 +368,7 @@ void InserirOuAtualizar(Cidade *censo, int tam){
                         if(strcmp(new.CPF, censo[0].cidadaos[k].CPF) == 0){
                             encontrado = true;
                             printf("O que voce deseja atuzalizar nesse cidadao? \n(1)tudo\n(2)idade\n(3)raca\n(4)salario\n(5)nome\n"); 
-                            scanf("&d", &otEscolha);
+                            scanf("%d", &otEscolha);
                             if(otEscolha==1){
                                 printf("Qual o nome desse cidadao?\n"); scanf(" %s", censo[j].cidadaos[k].nome);
                                 printf("Qual a idade desse cidadao?\n"); scanf("%d", &censo[j].cidadaos[k].idade);
@@ -408,17 +412,16 @@ void InserirOuAtualizar(Cidade *censo, int tam){
 
 }
 
-
 //remove uma pessoa
 void Remover(Cidade *censo, int tam){
-    Pessoa *removerP;
+    Pessoa removerP;
     bool encontrada = false;
 
-    printf("CPF da pessoa? "); scanf(" %s", removerP[0].CPF);
+    printf("CPF da pessoa? "); scanf(" %s", removerP.CPF);
 
     for(int i=0; i<tam; i++){
         for(int j=0; j<censo[i].n_cidadaos; j++){
-            if(strcmp(removerP[0].CPF, censo[i].cidadaos[j].CPF)==0){
+            if(strcmp(removerP.CPF, censo[i].cidadaos[j].CPF)==0){
                 encontrada = true;
                 censo[i].cidadaos[j] = censo[i].cidadaos[censo[i].n_cidadaos];
                 censo[i].cidadaos = (Pessoa *) realloc (censo[i].cidadaos, (censo[i].n_cidadaos - 1) * sizeof(Pessoa));

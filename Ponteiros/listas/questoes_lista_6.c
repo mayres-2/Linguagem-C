@@ -54,6 +54,7 @@ int main(){
         (APENAS QUANDO JUNTOS PARA A MESMA FUNCAO).
     */
 
+
 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 
 /*2. Declare um vetor*/
@@ -93,6 +94,7 @@ int main (){
 }
 
 */
+
 
 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 
@@ -138,9 +140,9 @@ int main() {
 }
 */
 
+
 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
 /*4. strings*/
-
 /*
 
 #include <stdio.h>
@@ -154,32 +156,17 @@ void mostraTudo(char **pStr, int tam);
 int main(){
     char str[1000000];
     char **pStr = NULL;
-    int escolha=-1;
     int tam=0;
 
-    do {
-        printf("=======MENU=======\n");
-        printf("0. Sair\n");
-        printf("1. Adcionar string\n");
-        printf("2. Printar tudo\n");
-        scanf("%d", &escolha);
+    while(scanf(" %s", str) != EOF) {
 
-        if(escolha==1){
-            printf("Digite a nova string: "); 
-            scanf(" %s", str);
-            adicionar(&pStr, &tam, str);
-        }
-        else if(escolha==2){
-            mostraTudo(pStr, tam);
-        }
-        else if(escolha==0){
-            printf("Saindo...\n");
-        }
-        else{
-            printf("Opcao invalida");
-        }
+        scanf(" %s", str);
         
-    } while(escolha!=0);
+        adicionar(&pStr, &tam, str);
+
+    } 
+
+    mostraTudo(pStr, tam);
 
     for(int i=0; i<tam; i++){
         free(pStr[i]);
@@ -194,6 +181,7 @@ void adicionar(char ***pStr, int *tam, char *str){
     (*pStr) = (char **) realloc((*pStr), ((*tam)+1) * sizeof(char*));
     if((*pStr)== NULL){
         printf("Erro de alocacao\n");
+        free(tmp);
         exit(1);
     }
     (*pStr)[*tam] = strdup(str);
