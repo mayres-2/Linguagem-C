@@ -84,7 +84,7 @@ void removerGrupoCompra(Compra **lista, int *tamanhoLista){
     scanf("%f", &valor);
 
     for(int i=0; i<*tamanhoLista; i++){
-        if((*lista)[i].quantidade > valor){
+        if((*lista)[i].valor = valor){
             (*lista)[i] = (*lista)[*tamanhoLista - 1];
             *lista = (Compra *) realloc (*lista, (*tamanhoLista - 1) * sizeof(Compra));
             (*tamanhoLista)--;
