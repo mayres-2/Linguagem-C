@@ -26,6 +26,4 @@ void copiarConteudo(FILE *file1, FILE *file2){
     while(fgets(leitor, 1000, file1) != NULL){
         fputs(leitor, file2); 
     }
-
-
 }
