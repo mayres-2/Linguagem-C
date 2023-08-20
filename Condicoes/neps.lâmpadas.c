@@ -3,7 +3,7 @@
 
 int main(){
     bool a=false, b=false;
-    int n=0, contA=0, contB=0;
+    int n=0;
     int numA=0, numB=0;
 
     scanf("%i", &n);
@@ -12,7 +12,7 @@ int main(){
         for(int i=0; i<n; i++){
             scanf("%i", &v[i]);
         }
-
+        
         for(int i=0; i<n; i++){
             //
             if(v[i] == 1){

@@ -134,40 +134,42 @@ int main() {
         }
         else if (choice == 2){
             // NESSE PASSO EU PEGO CADA ALUNO QUE ESTÁ ALOCADO DINAMICAMENTE E PEÇO PARA O USUARIO DIGITAR AS NOTAS DE CADA ALUNO!
-            for (int i = 0; i < qtdAlunos; i++)
-            {
+            for (int i = 0; i < qtdAlunos; i++){
                 alunos[i].notas = leNotas(&alunos[i].qtdNotas);
-                if (leNotas(&alunos[i].qtdNotas) == NULL)
-                {
+                if (leNotas(&alunos[i].qtdNotas) == NULL){
                     printf("ERRO!!\n");
                     free(alunos);
                     exit(1);
                 }
             }
         }
+
         else if (choice == 3){
             // CALCULA A MÉDIA DE CADA ALUNO E COLOCA DENTRO DA STRUCT ALUNO.
-            for (int i = 0; i < qtdAlunos; i++)
-            {
+            for (int i = 0; i < qtdAlunos; i++){
                 alunos[i].media = media(alunos[i].notas, alunos[i].qtdNotas);
             }
             printf("MÉDIA CALCULA COM SUCESSO!!\n");
         }
+        
         else if (choice == 4){
             // ORDENA OS ALUNOS EM FORMA DECRESCENTE DE MÉDIA
             ordena(alunos, qtdAlunos);
             printf("ALUNOS ORDENADOS EM FORMA DECRESCENTE COM SUCESSO!\n");
         }
+        
         else if (choice == 5){
             // SALVA CASA STRUCT DO VETOR DINAMICO DE ALUNOS EM UM ARQUIVO BINÁRIO
             salvaAlunos(alunos, qtdAlunos);
             printf("ARQUIVO .BIN CRIADO COM SUCESSO!!\n");
         }
+        
         else if (choice == 6){
             // FINALIZA O PROGAMA
             free(alunos);
             return 0;
         }
+        
         else{
             printf("OPCAO INVALIDA!! DIGITE NOVAMENTE\n");
         }

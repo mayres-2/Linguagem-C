@@ -13,11 +13,11 @@ typedef struct{
 } Candidato;
 
 typedef struct{
-    Candidato *deputadof;
-    Candidato *deputadoe;
-    Candidato *senador;
-    Candidato *governador;
-    Candidato *presidente;
+    Candidato *deputadof; 
+    Candidato *deputadoe; 
+    Candidato *senador; 
+    Candidato *governador; 
+    Candidato *presidente; 
     int qtdCandidatos[5];
 } listaCandidatos;
 
@@ -99,8 +99,7 @@ Eleitor *carregarEleitores(char *nomeArq, int *qtdEleitores) {
     // Conta quantas linhas tem o arquivo
     char c;
     while ((c = fgetc(arquivo)) != EOF){
-        if (c == '\n')
-        {
+        if (c == '\n'){
             count++;
         }
     }

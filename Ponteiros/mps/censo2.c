@@ -29,7 +29,7 @@ void Procura(Cidade *censo, int tam);
 void ViewTable(Cidade *censo, int tam);
 void Desloca(Cidade *censo, int tam);
 
-/*----------------------------------------------------------------------*/
+
 int main(){
     Cidade *censo = NULL;
     int qtd_cidades=0;
@@ -67,10 +67,9 @@ int main(){
     } while (escolha != 6);
     
     Desloca(censo, qtd_cidades);
-    free(censo);
     return 0;
 }
-/*----------------------------------------------------------------------*/
+
 
 
 
@@ -80,7 +79,6 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
     int indexCidade = *tam;
     Cidade *tmp = censo;
     censo = (Cidade *) realloc (censo, (*tam + 1) * sizeof(Cidade));
-    
     if(censo == NULL){
         printf("Erro de Alocacao\n");
         Desloca(censo, *tam);
@@ -88,6 +86,7 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
         exit(1);
     }
     else{
+        censo[(*tam)].cidadaos = NULL;    
         (*tam)++;
     }
 
@@ -95,7 +94,7 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
     if(indexCidade==0){
         printf("Nome dessa nova cidade?\n"); scanf(" %s", censo[indexCidade].nome);
         printf("Codigo dessa cidade?\n"); scanf("%d", &censo[indexCidade].codigo);
-        printf("Capacidade de pessoa dessa cidade?\n"); scanf("%d", &censo[indexCidade].capacidade);
+        printf("Capacidade de pessoas dessa cidade?\n"); scanf("%d", &censo[indexCidade].capacidade);
         printf("Tem alguem morando nessa cidade?\n(1)sim\n(2)nao\n"); scanf("%d", &otEscolha);
         if(otEscolha==1){
             printf("Quantas pessoas moram nessa cidade?\n"); scanf("%d", &tmp[0].n_cidadaos);
@@ -107,7 +106,7 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
             else {
                 printf("nao tem lugar nessa cidade para mais pessoas\n");
                 return censo;
-            } 
+            }
         }
         else if(otEscolha==2){
             censo[indexCidade].n_cidadaos = 0;
@@ -145,7 +144,7 @@ Cidade * NovaCidade(Cidade *censo, int *tam){
                 return censo;
             }
         }
-        else if(otEscolha==2){/////////
+        else if(otEscolha==2){
             censo[indexCidade].n_cidadaos = 0;
             printf("Ok...\n");
         }
@@ -173,8 +172,8 @@ void InserirOuAtualizar(Cidade **censo, int tam){
         return;
     }
     
-    else if((tam+1)>0){
-        for(int i=0; i<tam+1 && encontrado==false; i++){
+    else if(tam>0){
+        for(int i=0; i<tam && encontrado==false; i++){
             if((*censo)[i].codigo == codigo){
                 encontrado = true;
                 indexCidade=i;
@@ -182,7 +181,7 @@ void InserirOuAtualizar(Cidade **censo, int tam){
         }
         
         //
-        if(encontrado==false){
+        if(!encontrado){
             printf("cidade nao encontrada\n");
             return;
         }
@@ -197,7 +196,6 @@ void InserirOuAtualizar(Cidade **censo, int tam){
             
             if((*censo) == NULL){
                 printf("Erro de alocacao\n");
-                Desloca((*censo), tam);
                 free(newof);
                 exit(1);
             }
@@ -214,9 +212,23 @@ void InserirOuAtualizar(Cidade **censo, int tam){
                 }
                 else{
                     strcpy((*censo)[indexCidade].cidadaos[indexPessoa].CPF, novaPessoa.CPF);
-                    printf("Qual o nome desse cidadao?\n"); scanf(" %s", (*censo)[indexCidade].cidadaos[indexPessoa].nome);
+                    printf("Qual o nome desse cidadao?\n"); 
+                        getchar();
+                        fgets((*censo)[indexCidade].cidadaos[indexPessoa].nome, 50, stdin);
+                        int i=0; 
+                        while ((*censo)[indexCidade].cidadaos[indexPessoa].nome[i] != '\n'){
+                            i++;
+                        } 
+                        (*censo)[indexCidade].cidadaos[indexPessoa].nome[i++] = '\0';
                     printf("Qual a idade desse cidadao?\n"); scanf("%d", &(*censo)[indexCidade].cidadaos[indexPessoa].idade);
-                    printf("Qual a etinia desse cidadao?\n"); scanf(" %s", (*censo)[indexCidade].cidadaos[indexPessoa].raca);
+                    printf("Qual a etinia desse cidadao?\n"); 
+                        getchar();
+                        fgets((*censo)[indexCidade].cidadaos[indexPessoa].raca, 50, stdin);
+                        i=0; 
+                        while ((*censo)[indexCidade].cidadaos[indexPessoa].raca[i] != '\n'){
+                            i++;
+                        } 
+                        (*censo)[indexCidade].cidadaos[indexPessoa].raca[i++] = '\0';
                     printf("Qual o salario desse cidadao?\n"); scanf("%f", &(*censo)[indexCidade].cidadaos[indexPessoa].salario);
                     return;
                 }
@@ -237,25 +249,54 @@ void InserirOuAtualizar(Cidade **censo, int tam){
                     printf("O que voce deseja atuzalizar nesse cidadao? \n(1)tudo\n(2)idade\n(3)raca\n(4)salario\n(5)nome\n"); 
                     scanf("%d", &otEscolha);
                     if(otEscolha==1){
-                        printf("Qual o nome desse cidadao?\n"); scanf(" %s", (*censo)[indexCidade].cidadaos[k].nome);
+                        printf("Qual o nome desse cidadao?\n");
+                            getchar();
+                            fgets((*censo)[indexCidade].cidadaos[k].nome, 50, stdin);
+                            int i=0; 
+                            while ((*censo)[indexCidade].cidadaos[k].nome[i] != '\n'){
+                                i++;
+                            } 
+                            (*censo)[indexCidade].cidadaos[k].nome[i++] = '\0';
                         printf("Qual a idade desse cidadao?\n"); scanf("%d", &(*censo)[indexCidade].cidadaos[k].idade);
-                        printf("Qual a etinia desse cidadao?\n"); scanf(" %s", (*censo)[indexCidade].cidadaos[k].raca);
+                        printf("Qual a etinia desse cidadao?\n"); 
+                            getchar();
+                            fgets((*censo)[indexCidade].cidadaos[k].raca, 50, stdin);
+                            i=0; 
+                            while ((*censo)[indexCidade].cidadaos[k].raca[i] != '\n'){
+                                i++;
+                            }
+                            (*censo)[indexCidade].cidadaos[k].raca[i++] = '\0';
                         printf("Qual o salario desse cidadao?\n"); scanf("%f", &(*censo)[indexCidade].cidadaos[k].salario);
                     }
                     else if(otEscolha==2){
                         printf("Qual a idade desse cidadao?\n"); scanf("%d", &(*censo)[indexCidade].cidadaos[k].idade);
                     }
                     else if(otEscolha==3){
-                        printf("Qual a etinia desse cidadao?\n"); scanf(" %s", (*censo)[indexCidade].cidadaos[k].raca);
+                        printf("Qual a etinia desse cidadao?\n"); 
+                            getchar();
+                            fgets((*censo)[indexCidade].cidadaos[k].raca, 50, stdin);
+                            int i=0; 
+                            while ((*censo)[indexCidade].cidadaos[k].raca[i] != '\n'){
+                                i++;
+                            } 
+                            (*censo)[indexCidade].cidadaos[k].raca[i++] = '\0';
                     }
                     else if(otEscolha==4){
                         printf("Qual o salario desse cidadao?\n"); scanf("%f", &(*censo)[indexCidade].cidadaos[k].salario);
                     }
                     else if(otEscolha==5){
-                        printf("Qual o nome desse cidadao?\n"); scanf(" %s", (*censo)[indexCidade].cidadaos[k].nome);
+                        printf("Qual o nome desse cidadao?\n");
+                            getchar();
+                            fgets((*censo)[indexCidade].cidadaos[k].nome, 50, stdin);
+                            int i=0; 
+                            while ((*censo)[indexCidade].cidadaos[k].nome[i] != '\n'){
+                                i++;
+                            } 
+                            (*censo)[indexCidade].cidadaos[k].nome[i++] = '\0';
                     }
                     else{
                         printf("Opcao invalida\n");
+
                     }
                     return;
                 }
@@ -312,14 +353,14 @@ void Remover(Cidade *censo, int tam){
 //nao//sei//procura uma pessoa
 void Procura(Cidade *censo, int tam){
     Pessoa procurada;
-
+    
     bool encontrado=false;
 
     printf("Qual o CPF desse cidadao?\n"); scanf(" %s", procurada.CPF);
 
-    //se tam==0
+    //se inicio
     if(tam==0){
-        for(int k=0; k<=censo[0].n_cidadaos+1; k++){
+        for(int k=0; k<=censo[0].n_cidadaos; k++){
             if(strcmp(procurada.CPF, censo[0].cidadaos[k].CPF) == 0){
                 encontrado = true; 
                 printf("nome desse cidadao: %s\n", censo[0].cidadaos[k].nome);
@@ -331,10 +372,10 @@ void Procura(Cidade *censo, int tam){
         }
     }
 
-    //se tam>0
+    //se 
     else if(tam>0){
         for(int j=0; j<tam; j++){
-            for(int k=0; k<=censo[j].n_cidadaos+1; k++){
+            for(int k=0; k<=censo[j].n_cidadaos; k++){
                 if(strcmp(procurada.CPF, censo[j].cidadaos[k].CPF) == 0){
                     encontrado = true;
                     printf("nome desse cidadao: %s\n", censo[j].cidadaos[k].nome);
@@ -347,7 +388,7 @@ void Procura(Cidade *censo, int tam){
         }
     }
 
-    if(encontrado==false){
+    if(!encontrado){
         printf("pessoa nao encontrada\n");
         return;
     }
@@ -359,30 +400,14 @@ void ViewTable(Cidade *censo, int tam){
         printf("nao tem cidades cadastradas no censo\n");
         return;
     }
-
-    //se tam==0
-    else if(tam==0){
-        printf("Nome da cidade: %s\n", censo[0].nome);
-        printf("Codigo da cidade: %d\n", censo[0].codigo);
-        printf("Capacidade de pessoa para morar: %d\n", censo[0].capacidade);
-        printf("%d pessoas que moram na cidade\n", censo[0].n_cidadaos);
-        for(int k=1; k<=censo[0].n_cidadaos; k++){
-            printf("nome desse cidadao: %s\n", censo[0].cidadaos[k].nome);
-            printf("idade desse cidadao: %d\n", censo[0].cidadaos[k].idade);
-            printf("etinia desse cidadao: %s\n", censo[0].cidadaos[k].raca);
-            printf("salario desse cidadao: %.2f\n", censo[0].cidadaos[k].salario);  
-        }
-        return;
-    }
-
-    //se tam>0
-    else if(tam>0){
+    
+    else if(tam>=0){
         for(int j=0; j<tam; j++){
             printf("Nome da cidade: %s\n", censo[j].nome);
             printf("Codigo da cidade: %d\n", censo[j].codigo);
             printf("Capacidade de pessoa para morar: %d\n", censo[j].capacidade);
-            printf("%d pessoas que moram na cidade\n", censo[j].n_cidadaos);
-            for(int k=1; k<=censo[j].n_cidadaos; k++){
+            printf("%d pessoas que mora(m) na cidade\n", censo[j].n_cidadaos);
+            for(int k=0; k<censo[j].n_cidadaos; k++){
                 printf("nome desse cidadao: %s\n", censo[j].cidadaos[k].nome);
                 printf("idade desse cidadao: %d\n", censo[j].cidadaos[k].idade);
                 printf("etinia desse cidadao: %s\n", censo[j].cidadaos[k].raca);
