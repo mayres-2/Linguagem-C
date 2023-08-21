@@ -24,7 +24,7 @@ typedef struct{
 
 typedef struct{
     Candidato *nomeCanElegivel;
-    int votos;
+    int numC;
 }TotalVoto;
 
 listaCandidatos carregarCandidatos(char *nomeArq);
@@ -39,10 +39,14 @@ int main(){
     int escolha=-2;
     int qtd_Eleitores=0;
     bool encontrado=false;
-    TotalVoto *votos;
     
     Eleitor comprado; Candidato vendido, *branco; char cargo[30];
     listaCandidatos listaC = carregarCandidatos("Candidatos.txt");
+    TotalVoto *votos = (TotalVoto *) malloc(5 * sizeof(TotalVoto));
+    if(votos==NULL){
+        printf("Gato saltou\n");
+        exit(1);
+    }
     Eleitor *listaE = carregarEleitores("Eleitores.txt", &qtd_Eleitores);
     if(listaE==NULL){
         printf("Galo voou\n");
@@ -86,17 +90,24 @@ int main(){
                         }
 
                         if(k!=-1){
-                            for(int j=0; j<listaC.qtd_Cand[k] && encontrado==false; j++){
+                            //for(int j=0; j<listaC.qtd_Cand[k] && encontrado==false; j++){
+                            for(int j=0; j<votos[k].numC; j++){
                                 //verificar se ja existe em votos do TotalVotos
-                                if( ) {
+                                if(strcmp(vendido.nomeCan, votos[k].nomeCanElegivel[j].nomeCan)) {
                                     encontrado=true;
-
+                                    votos[k].nomeCanElegivel[j].numCan++;
                                 }
                             }
-
-                            votos[i].nomeCanElegivel = localizaCandidato(listaC, vendido, cargo);
-                            votos[i].votos++;
-                            i++;
+                            if(!encontrado){
+                                Candidato *tmp = votos[k].nomeCanElegivel;
+                                votos[k].nomeCanElegivel = (Candidato *) realloc(votos[k].nomeCanElegivel, (votos[k].numC + 1) * sizeof(Candidato));
+                                if(votos[k].nomeCanElegivel==NULL){
+                                    printf("Cachorrou correu\n");
+                                    exit(1);
+                                }
+                                votos[k].nomeCanElegivel[(votos[k].numC)] = localizaCandidato(listaC, vendido, cargo);
+                                votos[k].numC++;
+                            }
                         }
 
                     }
@@ -114,10 +125,7 @@ int main(){
 
         }
         else if(escolha==2){
-            //faltando coisa//
-            for(int i=0; i<5; i++){
-                apresentaResultado(votos, listaC.qtd_Cand);
-            }
+            apresentaResultado(votos, listaC.qtd_Cand);
             printf("Finalizada apresentacao\n");
         }
         else if(escolha==3){
@@ -136,11 +144,34 @@ int main(){
 
 
 listaCandidatos carregarCandidatos(char *nomeArq){
-    /**/
+    listaCandidatos listaC;
+    FILE *file_candidatos = fopen(nomeArq, "r");
+    if(file_candidatos==NULL){
+        printf("Arquivo fugiu\n");
+        exit(1);
+    }
+    /*
+        
+        fscanf(file_candidatos, );
+        fgets(file_candidatos, );
+        
+    */
+    fclose(file_candidatos);
+    return listaC;
 }
 
 Eleitor *carregarEleitores(char *nomeArq, int *qtdEleitores){
+    Eleitor *listaE;
+    FILE *file_eleitores = fopen(nomeArq, "r");
+    if(file_eleitores==NULL){
+        printf("Arquivo fugiu\n");
+        exit(1);
+    }
+    
     /**/
+    
+    fclose(file_eleitores);
+    return listaE;
 }
 
 int verificaCandidato(listaCandidatos listaC, Candidato candidatoAt){
