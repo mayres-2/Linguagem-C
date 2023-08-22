@@ -8,11 +8,12 @@ typedef struct
     /* data */
 }nothing;
 
-void printTabuleiro(char tab[8][8][3]);
-bool checkKING(char tab[8][8][3]);
-bool verificaJogada(char jogada[7], char moves[8][8][4]);
-void moverPeca(char ****tab, char jogada[7]);
-bool verificarArqTabuleiro(char ****tab);
+void printTabuleiro(char tab[8][8][2]);
+bool checkmateKING(char tab[8][8][2]);
+bool checkKING(char tab[8][8][2]);
+bool verificaJogada(char jogada[7]);
+//void moverPeca(char ****tab, char jogada[7]);
+//bool verificarArqTabuleiro(char ****tab);
 
 int main(){
     bool check=false, checkmate=false;
@@ -21,34 +22,23 @@ int main(){
     char jogador[2][8] = {
         "brancas", "pretas"
     };
-    char moves[8][8][4] = {
-        //a/////b/////c/////d/////e/////f/////g/////h//
-        {"a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"}, //8
-        {"a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"}, //7
-        {"a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"}, //6
-        {"a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5"}, //5
-        {"a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4"}, //4
-        {"a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3"}, //3
-        {"a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"}, //2
-        {"a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"}  //1
-    };
-    char tab[8][8][3] = {
+    char tab[8][8][2] = {
         //a////b////c////d////e////f////g////h//
-        {"Tb", "Cb", "Bb", "Db", "Rb", "Bb", "Cb", "Tb"}, //8
-        {"Pb", "Pb", "Pb", "Pb", "Pb", "Pb", "Pb", "Pb"}, //7
-        {"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "}, //4
-        {"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "}, //6
-        {"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "}, //5
-        {"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "}, //3
-        {"Pp", "Pp", "Pp", "Pp", "Pp", "Pp", "Pp", "Pp"}, //2
-        {"Tp", "Cp", "Bp", "Dp", "Rp", "Bp", "Cp", "Tp"}  //1
+        {"T", "C", "B", "D", "R", "B", "C", "T"}, //8
+        {"P", "P", "P", "P", "P", "P", "P", "P"}, //7
+        {" ", " ", " ", " ", " ", " ", " ", " "}, //4
+        {" ", " ", " ", " ", " ", " ", " ", " "}, //6
+        {" ", " ", " ", " ", " ", " ", " ", " "}, //5
+        {" ", " ", " ", " ", " ", " ", " ", " "}, //3
+        {"p", "p", "p", "p", "p", "p", "p", "p"}, //2
+        {"t", "c", "b", "d", "r", "b", "c", "t"}  //1
     };
 
 
     qtd_jogadas++;
     bool i=0;
     do{
-        verificarArqTabuleiro(&tab);
+        //verificarArqTabuleiro(&tab);
         ////""""MENU GERAL""""////
         printf("Jogo de Xadrez\n");
         if(qtd_jogadas%2!=0){ i = 0; }
@@ -57,16 +47,18 @@ int main(){
         printTabuleiro(tab);
         printf("Qual sua jogada? "); scanf(" %6[^\n] ", jogada);
 
-        if (verificaJogada(jogada, moves)){
+        if (verificaJogada(jogada)){
             qtd_jogadas++;
             printf("ok\n");
         } else{
             printf("Jogada invalida\n");
         }
 
-        moverPeca(&tab, jogada);
+        //moverPeca(&tab, jogada);
 
-        checkmate = checkKING(tab);
+        checkmate = checkmateKING(tab);
+
+        //if(!checkmate){ check = checkKING(tab); }
 
     } while(checkmate!=true);
     
@@ -81,7 +73,7 @@ int main(){
 }
 
 //ok//
-void printTabuleiro(char tab[8][8][3]){
+void printTabuleiro(char tab[8][8][2]){
     printf("--------------------------\n");
     for(int i=0; i<8; i++){
         printf("| ");
@@ -96,7 +88,7 @@ void printTabuleiro(char tab[8][8][3]){
 }
 
 //fazer//verifica se o rei esta em cheque mate
-bool checkKING(char tab[8][8][3]){
+bool checkmateKING(char tab[8][8][2]){
 
     return false;
 
@@ -104,21 +96,35 @@ bool checkKING(char tab[8][8][3]){
 }
 
 //fazer
-bool verificaJogada(char jogada[7], char moves[8][8][4]){
+bool verificaJogada(char jogada[7]){
+    char moves[8][8][4] = {
+        //a/////b/////c/////d/////e/////f/////g/////h//
+        {"a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"}, //8
+        {"a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"}, //7
+        {"a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"}, //6
+        {"a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5"}, //5
+        {"a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4"}, //4
+        {"a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3"}, //3
+        {"a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"}, //2
+        {"a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"}  //1
+    };
     /**/
     return true;
     return false;
 }
 
 //fazer
+/*
 void moverPeca(char ****tab, char jogada[7]){
     char peca;
-
-    return tab;
+    return;
 }
+*/
 
 //fazer
+/*
 bool verificarArqTabuleiro(char ****tab){
-    /**/
+    
+    return 0;
 }
-
+*/
