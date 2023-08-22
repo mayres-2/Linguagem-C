@@ -105,6 +105,8 @@ int main(){
                                     printf("Cachorrou correu\n");
                                     exit(1);
                                 }
+
+
                                 votos[k].nomeCanElegivel[(votos[k].numC)] = localizaCandidato(listaC, vendido, cargo);
                                 votos[k].numC++;
                             }
