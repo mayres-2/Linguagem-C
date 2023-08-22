@@ -18,20 +18,43 @@ void salvaAlunos(Aluno *alunos, int qtddAlunos);
 
 
 int main(){
-    int qtdAlunos=1;
+    int qtdAlunos=0;
+
+    //contar os alunos, comparando o número de linhas
+        char tmp[50]; //uso no fgets
+        FILE *arq;
+        arq = fopen("alunos.txt", "r");
+        if(arq==NULL){
+            printf("Erro na leitura do arquivo\n");
+            exit(1);
+        }
+        while(!feof(arq)){
+            fgets(tmp, 50, arq);
+            qtdAlunos++;
+        }
+        fclose(arq);
+
     Aluno *pestes = carregaAlunos(&qtdAlunos);
-
-
+    
     for(int i=0; i<qtdAlunos; i++){
-        printf("Dados do Alunos: %s\n", pestes[i].nome);
-        pestes[i].qtd_notas = 0;
+        printf("Dados do Alunos %s:\n", pestes[i].nome);
+        pestes[i].qtd_notas = 0; //reinicia a qtd de notas de cada aluno
         pestes[i].notas = leNotas(&pestes[i].qtd_notas);
         pestes[i].media = media(pestes[i].notas, pestes[i].qtd_notas);
     }
 
+    //ordenacao deles com base na media de cada um
     ordena(pestes, qtdAlunos); 
 
+    for(int i=0; i<qtdAlunos; i++){
+        printf("Resultados do aluno %s\n", pestes[i].nome);
+        printf("Media do aluno: %.2f\n", pestes[i].media);
+        for(int j=0; j<pestes[i].qtd_notas; j++){
+            printf("Nota %d: %.2f\n", j+1, pestes[i].notas[j]);
+        }
+    }
 
+    //libera os ponteiros
     for(int i=0; i<qtdAlunos; i++){
         free(pestes[i].notas);
     }
@@ -40,24 +63,13 @@ int main(){
     return 0;
 }
 
-
+//ok//
 Aluno *carregaAlunos(int *qtdAlunos){
     FILE *file = fopen("alunos.txt", "r");
     if(file==NULL){
         printf("Problemas em abrir o arquivo.\n");
         exit(1);
     }
-
-    /*int i=0;
-    char qts;
-    seek(file, SEEK_SET);
-    while(!feof(file)){
-        fscanf(file, "%c", qts);
-        if(qts == '\n'){
-            i++;
-        }
-    }
-    (*qtdAlunos) = qts;*/
 
     Aluno *alunos = (Aluno *) malloc ((*qtdAlunos) * sizeof(Aluno));
     if(alunos==NULL){
@@ -68,7 +80,7 @@ Aluno *carregaAlunos(int *qtdAlunos){
     for(int i=0; i<(*qtdAlunos); i++){
         fscanf(file, " %99[^','],", alunos[i].nome);
         alunos[i].nome[strlen(alunos[i].nome) + 1] = '\0';
-        fscanf(file, " %12[^\n]", alunos[i].cpf);
+        fscanf(file, " %11[^\n]", alunos[i].cpf);
         alunos[i].cpf[strlen(alunos[i].cpf) + 1] = '\0';
     }
 
@@ -76,7 +88,7 @@ Aluno *carregaAlunos(int *qtdAlunos){
     return alunos;
 }   
 
-//ok//
+//testar//
 float *leNotas(int *qtdNotas){
     float *notas=NULL;
     float nota=0;
@@ -96,17 +108,20 @@ float *leNotas(int *qtdNotas){
         i++;
     }
 
-    (*qtdNotas) = i;
-
+    //so vai ate as notas de cada aluno
+    (*qtdNotas) = i - 1;
+    //tira a nota negativa
     notas = (float *) realloc(notas, (*qtdNotas) * sizeof(float));
-
+    if(notas==NULL){
+        printf("Problema em reallcoar\n");
+        exit(1);
+    }
     return notas;
 }
 
 //ok//
 float media(float *notas, int qtdNotas){
-    float media;
-    float soma=0;
+    float media, soma=0;
 
     for(int i=0; i<qtdNotas; i++){
         soma = soma + notas[i];
@@ -117,14 +132,13 @@ float media(float *notas, int qtdNotas){
     return media;
 }
 
-//testar//
+//ok////bublle sort
 void ordena(Aluno *alunos, int qtdAlunos){
     Aluno tmp;
-
-    //bublle sort
+    
     for(int i=0; i<qtdAlunos; i++){
         for(int j=0; j<qtdAlunos - i - 1; j++){
-            if(alunos[j].media > alunos[j+1].media){
+            if(alunos[j].media < alunos[j+1].media){
                 tmp = alunos[j];
                 alunos[j] = alunos[j+1];
                 alunos[j+1] = tmp;
@@ -132,6 +146,7 @@ void ordena(Aluno *alunos, int qtdAlunos){
         }
     }
     
+    //salva eles em um arquivo binario
     salvaAlunos(alunos, qtdAlunos);
 
 }

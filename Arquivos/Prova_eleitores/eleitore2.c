@@ -88,7 +88,7 @@ int main(){
                         if(k!=-1){
                             for(int j=0; j<listaC.qtd_Cand[k] && encontrado==false; j++){
                                 //verificar se ja existe em votos do TotalVotos
-                                if( ) {
+                                if(j) {
                                     encontrado=true;
 
                                 }
