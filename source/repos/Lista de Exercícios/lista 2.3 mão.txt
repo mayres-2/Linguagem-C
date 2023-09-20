@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+int main () { ///incompleto
+	int n, x, y, z;
+	//Qual o maior número de pô-que-mãos que podem evoluir?;
+	scanf("%d %d %d %d", &n, &x, &y, &z);
+	int p;
+	if (n>0 && n<=1000) { //quantidade de doces
+		if ((x>0 && x<=1000) && (y>0 && y<=1000) && (z>0 && z<=1000)) {
+			if ((x>n) && (y>n) && (z>n)) {//caso cada todos deles pedir mais doces
+				p = 0;
+				printf("%d", p);
+			}
+			
+			// tres pqms
+			else if ((x+y+z)<=n) {
+				p = 3;
+				printf("%d", p);
+			}
+		
+			// dois pqms
+			else if (((x+y)<=n) | | ((x+z)<=n) | | ((y+z)<=n)) { //pode substituir todos os debaixo
+				p = 2;
+				print("%d", p);
+			}
+			else if (((x+y)>n) && (((x+z)<=n) || ((y+z)<=n))) {
+				p = 2;
+				printf("%d", p);
+			}
+			else if (((x+z)>n) && (((x+y)<=n) || ((z+y)<=n))) {
+				p = 2;
+				printf("%d", p);
+			}
+			else if (((y+z)>n) && (((y+x)<=n) || ((z+x)<=n))) {
+				p = 2;
+				printf("%d", p);
+			}
+
+
+			// um pqm
+			else if (((x+y)>n) && ((x+z)>n) && (z<n ^ y<n)) {
+				p = 1;
+				printf("%d", p);
+			}
+			else if (((z+y)>n) && ((z+x)>n) && (x<n ^ y<n)) {
+				p = 1;
+				printf("%d", p);
+			}
+			else if (((y+z)>n) && ((y+x)>n) && (z<n ^ x<n)) {
+				p = 1;
+				printf("%d", p);
+			}
+		}
+	}
+
+	return 0;
+}
