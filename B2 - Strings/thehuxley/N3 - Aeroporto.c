@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 
-
 typedef struct {
     char RG[11];
     char Nascimento[11];
@@ -12,7 +11,6 @@ typedef struct {
     char Assento[4];
 } Passageiros;
 
-void ChecarPessoa(Passageiros *pessoas, int i);
 
 int main () {
     int N=0;
@@ -28,31 +26,25 @@ int main () {
         scanf(" %10[^\n]", pessoas[i].DataPassagem);
         scanf(" %3[^\n]", pessoas[i].Assento);
 
-        ChecarPessoa(pessoas, i);
+        if(strcmp(pessoas[i].RG, "Nao possui") == 0){
+            printf("a saida e nessa direção\n");
+        }
+        else {
+            if(strcmp(pessoas[i].Passagem, "Nao possui") == 0){
+                printf("a recepição e nessa direção\n");
+            }
+            else{
+                if(strcmp(pessoas[i].DataPassagem, pessoas[i].Nascimento) != 0){
+                    printf("190\n");
+                }
+                else{
+                    printf("o seu assento e %s tenha um bom dia\n", pessoas[i].Assento);
+                }     
+            }
+        }
     }
 
 
     return 0;
 }
 
-
-void ChecarPessoa(Passageiros *pessoas, int i){
-
-    if(strcmp(pessoas[i].RG, "Nao possui") == 0){
-        printf("a saida e nessa direção\n");
-    }
-    else {
-        if(strcmp(pessoas[i].Passagem, "Nao possui") == 0){
-            printf("a recepição e nessa direção\n");
-        }
-        else{
-            if(strcmp(pessoas[i].DataPassagem, pessoas[i].Nascimento) != 0){
-                printf("190\n");
-            }
-            else{
-                printf("o seu assento e %s tenha um bom dia\n", pessoas[i].Assento);
-            }     
-        }
-    }
-
-}
