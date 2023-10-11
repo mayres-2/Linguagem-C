@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/mayre_e0trsrx/OneDrive/Documentos/GitHub/Linguagem-C/Ponteiros/mps/output",
-      "program": "c:/Users/mayre_e0trsrx/OneDrive/Documentos/GitHub/Linguagem-C/Ponteiros/mps/output/build/Debug/outDebug",
+      "cwd": "c:/Users/mayre_nr1hs/OneDrive/Documentos/GitHub/Linguagem-C/Arquivos/Prova_Alunos",
+      "program": "c:/Users/mayre_nr1hs/OneDrive/Documentos/GitHub/Linguagem-C/Arquivos/Prova_Alunos/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
