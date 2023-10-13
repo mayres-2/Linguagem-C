@@ -4,9 +4,9 @@
 #define tam 110
 
 typedef struct{
+    char contas[10];
     int a, b, c;
     int entrada;
-    char contas[10];
 } Numeros;
 
 int main (){
